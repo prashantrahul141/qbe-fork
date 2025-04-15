@@ -116,6 +116,19 @@ dbgfile(char *fn)
 	emitdbgfile(fn, outf);
 }
 
+void
+qbe(FILE *inf, FILE *outff)
+{
+    T = Deftgt;
+    outf = outff;
+    char *f;
+    f = "-";
+
+    parse(inf, f, dbgfile, data, func);
+    T.emitfin(outf);
+}
+
+
 int
 RENAMED_MAIN(int ac, char *av[])
 {
