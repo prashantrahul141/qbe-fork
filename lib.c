@@ -117,7 +117,7 @@ dbgfile(char *fn)
 }
 
 int
-main(int ac, char *av[])
+RENAMED_MAIN(int ac, char *av[])
 {
 	Target **t;
 	FILE *inf, *hf;
