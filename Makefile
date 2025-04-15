@@ -4,7 +4,7 @@
 PREFIX = /usr/local
 BINDIR = $(PREFIX)/bin
 
-COMMOBJ  = main.o util.o parse.o abi.o cfg.o mem.o ssa.o alias.o load.o \
+COMMOBJ  = lib.o util.o parse.o abi.o cfg.o mem.o ssa.o alias.o load.o \
            copy.o fold.o gvn.o gcm.o simpl.o live.o spill.o rega.o emit.o
 AMD64OBJ = amd64/targ.o amd64/sysv.o amd64/isel.o amd64/emit.o
 ARM64OBJ = arm64/targ.o arm64/abi.o arm64/isel.o arm64/emit.o
@@ -14,10 +14,10 @@ OBJ      = $(COMMOBJ) $(AMD64OBJ) $(ARM64OBJ) $(RV64OBJ)
 SRCALL   = $(OBJ:.o=.c)
 
 CC       = cc
-CFLAGS   = -std=c99 -g -Wall -Wextra -Wpedantic
+CFLAGS   = -std=c99 -c -fPIC -O3 -Wall -Wextra -Wpedantic
 
 qbe: $(OBJ)
-	$(CC) $(LDFLAGS) $(OBJ) -o $@
+	ar rcs libqbe.a $^
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -26,7 +26,7 @@ $(OBJ): all.h ops.h
 $(AMD64OBJ): amd64/all.h
 $(ARM64OBJ): arm64/all.h
 $(RV64OBJ): rv64/all.h
-main.o: config.h
+lib.o: config.h
 
 config.h:
 	@case `uname` in                               \
